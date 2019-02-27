@@ -17,12 +17,16 @@
     - copy:
         src: /tmp/vault_token
         dest: /tmp/vault_token
+
     - shell: cat /tmp/vault_token
       register: vault_token
+
     - shell: export VAULT_TOKEN=$(cat /tmp/vault_token) && vault read -address="https://{{ vault_server }}:443" -tls-skip-verify -field=password secret/jenkins
-      register: jenkins_password
+      register: jenkins_admin_password
+
     - file:
         path: /tmp/vault_token
         state: absent
+
     - debug:
-        msg: "Jenkins password = {{ jenkins_password }}"
+        msg: "Jenkins password = {{ jenkins_admin_password.stdout }}"
