@@ -12,23 +12,17 @@
     dest: "{{ vault_install_path }}"
     remote_src: yes
 
-- name: copy token
-  copy:
-    src: /tmp/jenkins_token
-    dest: /tmp/jenkins_token
-
-- name: read token
-  shell: cat /tmp/jenkins_token
-  register: vault_token
-
-- name: show token
-  debug:
-    msg: "Vault token - {{ vault_token.stdout }}"
-
-- name: read jenkins password
-  shell: export VAULT_TOKEN=$(cat /tmp/jenkins_token) && vault read -address="https://{{ vault_server }}:443" -tls-skip-verify -field=password secret/jenkins
-  register: jenkins_password
-
-- name: show token
-  debug:
-    msg: "Jenkins password - {{ jenkins_password.stdout }}"
+- name: get jenkins pass from vault
+  block:
+    - copy:
+        src: /tmp/vault_token
+        dest: /tmp/vault_token
+    - shell: cat /tmp/vault_token
+      register: vault_token
+    - shell: export VAULT_TOKEN=$(cat /tmp/jenkins_token) && vault read -address="https://{{ vault_server }}:443" -tls-skip-verify -field=password secret/jenkins
+      register: jenkins_password
+    - file:
+        path: /tmp/vault_token
+        state: absent
+    - debug:
+        msg: "Jenkins password = {{ jenkins_password }}"
