@@ -19,7 +19,7 @@
         dest: /tmp/vault_token
     - shell: cat /tmp/vault_token
       register: vault_token
-    - shell: export VAULT_TOKEN=$(cat /tmp/jenkins_token) && vault read -address="https://{{ vault_server }}:443" -tls-skip-verify -field=password secret/jenkins
+    - shell: export VAULT_TOKEN=$(cat /tmp/vault_token) && vault read -address="https://{{ vault_server }}:443" -tls-skip-verify -field=password secret/jenkins
       register: jenkins_password
     - file:
         path: /tmp/vault_token
