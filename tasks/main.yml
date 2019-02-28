@@ -26,9 +26,4 @@
     msg: "Vault token - {{ vault_token.stdout }}"
 
 - name: read jenkins password
-  shell: export VAULT_TOKEN=$(cat /tmp/jenkins_token) && vault read -address="https://{{ vault_server }}:443" -tls-skip-verify -field=password secret/jenkins
-  register: jenkins_password
-
-- name: show token
-  debug:
-    msg: "Jenkins password - {{ jenkins_password.stdout }}"
+  shell: export VAULT_TOKEN=$(cat /tmp/jenkins_token) && vault read -address="https://{{ vault_server }}:443" -tls-skip-verify -field=password secret/jenkins > /tmp/jenkins_password
