@@ -1,5 +1,4 @@
 ---
-# tasks file for .
 
 - name: install packages required for archive processing
   yum:
@@ -11,3 +10,16 @@
     src: "{{ vault_url }}"
     dest: "{{ vault_install_path }}"
     remote_src: yes
+
+- name: get jenkins pass from vault
+  copy:
+    src: /tmp/vault_token
+    dest: /tmp/vault_token
+
+- name: read password from vault
+  shell: "export VAULT_TOKEN=$(cat /tmp/vault_token) && vault read -address="https://{{ vault_server }}:443" -tls-skip-verify -field=password secret/jenkins > /tmp/jenkins_password
+
+- name: remove vault token from disk
+  file:
+    path: /tmp/vault_token
+    state: absent
