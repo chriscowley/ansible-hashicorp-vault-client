@@ -11,19 +11,3 @@
     src: "{{ vault_url }}"
     dest: "{{ vault_install_path }}"
     remote_src: yes
-
-- name: copy token
-  copy:
-    src: /tmp/jenkins_token
-    dest: /tmp/jenkins_token
-
-- name: read token
-  shell: cat /tmp/jenkins_token
-  register: vault_token
-
-- name: show token
-  debug:
-    msg: "Vault token - {{ vault_token.stdout }}"
-
-- name: read jenkins password
-  shell: export VAULT_TOKEN=$(cat /tmp/jenkins_token) && vault read -address="https://{{ vault_server }}:443" -tls-skip-verify -field=password secret/jenkins > /tmp/jenkins_password
