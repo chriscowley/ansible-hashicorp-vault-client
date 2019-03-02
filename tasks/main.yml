@@ -17,7 +17,9 @@
     dest: /tmp/vault_token
 
 - name: read password from vault
-  shell: export VAULT_TOKEN=$(cat /tmp/vault_token) && vault read -address=https://{{ vault_server }}:443 -tls-skip-verify -field=password secret/jenkins > /tmp/jenkins_password
+  shell: |
+    export VAULT_TOKEN=$(cat /tmp/vault_token)
+    vault read -address=https://{{ vault_server }}:443 -tls-skip-verify -field=password secret/jenkins > /tmp/jenkins_password
 
 - name: remove vault token from disk
   file:
