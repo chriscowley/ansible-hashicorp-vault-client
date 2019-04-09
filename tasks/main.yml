@@ -9,7 +9,7 @@
 - name: apt install packages required for archive processing
   apt:
     name: "{{ archive_packages }}"
-    state: installed
+    state: present
   when: ansible_os_family == 'Debian'
 
 - name: get vault binary
