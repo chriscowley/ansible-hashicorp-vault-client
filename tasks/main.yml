@@ -1,9 +1,16 @@
 ---
 
-- name: install packages required for archive processing
+- name: yum install packages required for archive processing
   yum:
-    name: "{{ yum_archive_packages }}"
+    name: "{{ archive_packages }}"
     state: installed
+  when: ansible_os_family == 'RedHat'
+
+- name: apt install packages required for archive processing
+  apt:
+    name: "{{ archive_packages }}"
+    state: installed
+  when: ansible_os_family == 'Debian'
 
 - name: get vault binary
   unarchive:

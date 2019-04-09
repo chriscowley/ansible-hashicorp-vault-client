@@ -1,9 +1,9 @@
 ---
 # defaults file for .
-yum_archive_packages:
+archive_packages:
   - wget
   - unzip
 
-vault_url: https://releases.hashicorp.com/vault/1.0.3/vault_1.0.3_linux_amd64.zip
-vault_install_path: /usr/sbin/
+vault_url: https://releases.hashicorp.com/vault/1.1.0/vault_1.1.0_linux_amd64.zip
+vault_install_path: /usr/local/sbin/
 vault_server: []
