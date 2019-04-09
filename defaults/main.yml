@@ -5,5 +5,5 @@ archive_packages:
   - unzip
 
 vault_url: https://releases.hashicorp.com/vault/1.1.0/vault_1.1.0_linux_amd64.zip
-vault_install_path: /usr/local/sbin/
+vault_install_path: /usr/local/bin/
 vault_server: []
